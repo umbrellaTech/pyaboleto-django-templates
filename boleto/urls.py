@@ -1,27 +1,5 @@
-# Python Yet Another Boleto Templates para Django - pyaboleto-django-templates
-O pyaboleto (Python Yet Another Boleto Templates para Django) é um conjunto de templates no padrão Django que utiliza 
-os objetos de dados do pyaboleto para gerar os boletos.
-
-A utilização é simples: Estenda de um template e personalize a área livre. A área padronizada já estará pronta.
-
-## Instalação
-```bash
-pip install pyaboleto-django-templates
-```
-
-
-## Bancos suportados
-Atualmente o pyaboleto-django-templates funciona com os seguintes bancos:
-
-| **Banco**               | **Homologado** |
-| ----------------------- | -------------- |
-| **Banco do Brasil** [1] | Não            |
-| **Caixa Economica**     | Não            |
-| **Itaú**                | Não            |
-
-
-Licença
-----------
+# -*- coding: utf-8 -*-
+"""
 The MIT License (MIT)
 
 Copyright 2015 Umbrella Tech.
@@ -42,3 +20,17 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+"""
+__author__ = 'Kelson da Costa Medeiros <kelsoncm@gmail.com>'
+
+
+from django.conf.urls import patterns, include, url
+from boleto.views import boleto
+
+urlpatterns = patterns('boleto.views',
+    # Examples:
+    # url(r'^$', 'pyaboleto_templates_django.views.home', name='home'),
+    # url(r'^blog/', include('blog.urls')),
+
+    url(r'^', boleto),
+)

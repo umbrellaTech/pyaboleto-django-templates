@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <style type="text/css">
+            #pyaboleto {
+                width: 1024px;
+            }
+            #pyaficha {
+                font-family: Arial;
+                font-size: 14pt;
+                background: red;
+            }
+            #pyaficha > div[id^="linha"] {
+                border-collapse: collapse;
+                border: 1px solid black;
+            }
+            #pyaficha > div[id^="linha"] > span {
+                border-collapse: collapse;
+                border: 1px solid black;
+                margin: 0px;
+                padding: 0px;
+                height: 100%;
+                display: table-cell;
+                background: white;
+            }
+            #pyaficha > #linhaA > span {
+                display: table-cell;
+            }
+            #pyaficha > #linhaA > #boleto_convenio_banco {
+                font-size: 32px;
+            }
+            #pyaficha > #linhaA > #boleto_linha_digitavel {
+                font-size: 26px;
+                float: left;
+            }
+            {% block custom_css %}{% endblock custom_css %}
+        </style>
+    </head>
+    <body>
+        <div id="pyaboleto">
+            <div id="pyaboleto_recibo">{% block recibo %}Recibo do sacado{% endblock recibo %}</div>
+            <div id="pyaficha"
+                >{% block ficha %}<div id="linhaA"
+                    ><span id='boleto_banco_identificacao'>{% block boleto_banco_identificacao %}&nbsp;{% endblock boleto_banco_identificacao %}</span
+                    ><span id='boleto_convenio_banco'>{% block boleto_convenio_banco %}{{ boleto.convenio.banco.codigo }}{% endblock boleto_convenio_banco %}</span
+                    ><span id='boleto_linha_digitavel'>{% block boleto_linha_digitavel%}{{ boleto.linha_digitavel }}{% endblock boleto_linha_digitavel%}</span
+                ></div
+                ><div id="linhaB"
+                    ><span id='boleto_local_pagamento'>{% block boleto_local_pagamento %}{{ boleto.local_pagamento }}{% endblock boleto_local_pagamento %}</span
+                    ><span id='boleto_data_vencimento'>{% block boleto_data_vencimento%}{{ boleto.data_vencimento }}{% endblock boleto_data_vencimento %}</span
+                ></div
+                ><div id="linhaC"
+                    ><span id='boleto_cedente_nome'>{% block boleto_cedente_nome %}{{ boleto.cedente.nome }}{% endblock %}</span
+                    ><span id='boleto_cedente_endereco'>{% block boleto_cedente_endereco %}{{ boleto.cedente.endereco }}{% endblock boleto_cedente_endereco %}</span
+                    ><span id='boleto_cedente_cpf_cnpj'>{% block boleto_cedente_cpf_cnpj %}{{ boleto.cedente.cpf_cnpj }}{% endblock boleto_cedente_cpf_cnpj %}</span
+                    ><span id='boleto_convenio_agencia'>{% block boleto_convenio_agencia %}{{ boleto.convenio.agencia }}{% endblock boleto_convenio_agencia %}</span
+                    ><span id='boleto_cedente_conta'>{% block boleto_cedente_conta %}{{ boleto.convenio.conta }}{% endblock boleto_cedente_conta %}</span
+                ></div
+                ><div id="linhaD"
+                    ><span id='boleto_data_documento'>{% block boleto_data_documento %}{{ boleto.data_documento }}{% endblock boleto_data_documento %}</span
+                    ><span id='boleto_nosso_documento'>{% block boleto_nosso_documento %}{{ boleto.nosso_documento }}{% endblock boleto_nosso_documento %}</span
+                    ><span id='boleto_especie_documento'>{% block boleto_especie_documento %}{{ boleto.especie_documento }}{% endblock boleto_especie_documento %}</span
+                    ><span id='boleto_aceite'>{% block boleto_aceite %}{{ boleto.aceite }}{% endblock boleto_aceite %}</span
+                    ><span id='boleto_data_processamento'>{% block boleto_data_processamento %}{{ boleto.data_documento }}{% endblock boleto_data_processamento %}</span
+                    ><span id='boleto_dnosso_numero'>{% block boleto_dnosso_numero %}{{ boleto.nosso_numero }}{% endblock boleto_dnosso_numero %}</span
+                ></div
+                ><div id="linhaE"
+                    ><span id='boleto_uso_do_banco'>{% block boleto_uso_do_banco %}&nbsp;{% endblock boleto_uso_do_banco %}</span
+                    ><span id='boleto_carteira'>{% block boleto_carteira %}{{ boleto.carteira }}{% endblock boleto_carteira %}</span
+                    ><span id='boleto_especie'>{% block boleto_especie %}{{ boleto.especie }}{% endblock boleto_especie %}</span
+                    ><span id='boleto_quantidade'>{% block boleto_quantidade %}{{ boleto.quantidade }}{% endblock boleto_quantidade %}</span
+                    ><span id='boleto_valor_documento'>{% block boleto_valor_documento %}{{ boleto.valor_documento }}{% endblock boleto_valor_documento %}</span
+                    ><span id='boleto_valor'>{% block boleto_valor %}&nbsp;{% endblock boleto_valor %}</span
+                ></div
+                ><div id="linhaF"
+                    ><span id='boleto_instrucoes'>{% block boleto_instrucoes %}{{ boleto.instrucoes }}{% endblock boleto_instrucoes %}</span
+                    ><span id='boleto_desconto'>{% block boleto_desconto %}{{ boleto.desconto }}{% endblock boleto_desconto %}</span
+                ></div
+                ><div id="linhaG"
+                    ><span id='boleto_multa'>{% block boleto_multa %}{{ boleto.multa }}{% endblock boleto_multa %}</span
+                    ><span id='boleto_outros_acrescimos'>{% block boleto_outros_acrescimos %}{{ boleto.outros_acrescimos }}{% endblock boleto_outros_acrescimos %}</span
+                ></div
+                ><div id="linhaH"
+                    ><span id='boleto_valor_total'>{% block boleto_valor_total %}{{ boleto.valor }}{% endblock boleto_valor_total %}</span
+                ></div
+                ><div id="linhaI"
+                    ><span id='boleto_sacado_nome'>{% block boleto_sacado_nome %}{{ boleto.sacado.nome }}{% endblock boleto_sacado_nome %}</span
+                    ><span id='boleto_sacado_endereco'>{% block boleto_sacado_endereco %}{{ boleto.sacado.endereco }}{% endblock boleto_sacado_endereco %}</span
+                    ><span id='boleto_sacado_cpf_cnpj'>{% block boleto_sacado_cpf_cnpj %}{{ boleto.sacado.cpf_cnpj }}{% endblock boleto_sacado_cpf_cnpj %}</span
+                    ><span id='boleto_sacador_nome'>{% block boleto_sacador_nome %}{{ boleto.sacador.nome }}{% endblock boleto_sacador_nome %}</span
+                    ><span id='boleto_sacador_endereco'>{% block boleto_sacador_endereco %}{{ boleto.sacador.endereco }}{% endblock boleto_sacador_endereco %}</span
+                    ><span id='boleto_sacador_cpf_cnpj'>{% block boleto_sacador_cpf_cnpj %}{{ boleto.sacador.cpf_cnpj }}{% endblock boleto_sacador_cpf_cnpj %}</span
+                ></div
+                ><div id="linhaJ"
+                    ><span id='boleto_codigo_barras'>{% block boleto_codigo_barras %}{{ boleto.codigo_barras }}{% endblock boleto_codigo_barras %}</span
+                    ><span id='boleto_autenticacao_mecanica'>{% block boleto_autenticacao_mecanica %}&nbsp;{% endblock boleto_autenticacao_mecanica %}</span
+                ></div
+            >{% endblock ficha %}</div>
+        </div>
+    </body>
+</html>
