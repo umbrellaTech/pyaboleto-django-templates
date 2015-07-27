@@ -2,43 +2,179 @@
 <html lang="en">
     <head>
         <style type="text/css">
+            /* Estrutura básica */
             #pyaboleto {
                 width: 1024px;
             }
+            @media print {
+                #pyaboleto_recibo {
+                    background: red;
+                    height: 880px;
+                }
+            }
             #pyaficha {
                 font-family: Arial;
-                font-size: 14pt;
-                background: red;
+                font-size: 12pt;
+                border-top: 1px solid black;
+                border-right: 1px solid black;
             }
             #pyaficha > div[id^="linha"] {
                 border-collapse: collapse;
-                border: 1px solid black;
+                border-bottom: 1px solid black;
+                border-left: 1px none black;
+                display: block;
             }
-            #pyaficha > div[id^="linha"] > span {
-                border-collapse: collapse;
-                border: 1px solid black;
+            #pyaficha > div[id^="linha"] > * {
+                border-left: 1px solid black;
                 margin: 0px;
-                padding: 0px;
-                height: 100%;
-                display: table-cell;
                 background: white;
+                display: inline-block;
             }
-            #pyaficha > #linhaA > span {
-                display: table-cell;
+            #pyaficha > div[id^="linha"] > *:last-child {
+                width: 300px;
+                float: right;
+            }
+            #pyaficha > div[id^="linha"] > *:last-child > dd {
+                text-align: right;
+            }
+
+            #pyaficha > div[id^="linha"] dt, #pyaficha > div[id^="linha"] dd {
+                margin: 0;
+                padding: 0 5px;
+            }
+
+            #pyaficha > div[id^="linha"] > dl > dd {
+                font-size: 14pt;
+            }
+
+            /* Linha A */
+            #pyaficha > #linhaA {
+                height: 36px;
+            }
+            #pyaficha > #linhaA > * {
+                float: left;
+                padding: 0 5px;
+                vertical-align: bottom;
+                height: 100%;
+                line-height: 36px;
+            }
+            #pyaficha > #linhaA > #boleto_banco_identificacao {
+                width: 170px;
             }
             #pyaficha > #linhaA > #boleto_convenio_banco {
+                width: 90px;
                 font-size: 32px;
+                background: silver;
+                border-right: 1px solid black;
             }
             #pyaficha > #linhaA > #boleto_linha_digitavel {
-                font-size: 26px;
-                float: left;
+                width: 720px;
+                float: right;
+                font-size: 25px;
+                text-align: right;
+                border-left: 0px none;
             }
+
+            /* Linha B */
+            #pyaficha > #linhaB > * > dd {
+                font-weight: 700;
+            }
+
+            #pyaficha > #linhaB > #boleto_local_pagamento {
+                width: 679px;
+            }
+            #pyaficha > #linhaB > #boleto_data_vencimento {
+                background: silver;
+                font-weight: 700;
+            }
+            #pyaficha > #linhaB > #boleto_data_vencimento > dd {
+                text-align: right;
+            }
+
+            /* Linha C */
+
+            /* Linha D */
+            #pyaficha > #linhaD > dl:not(:last-child) > dd {
+                width: 140px;
+            }
+            #pyaficha > #linhaD > dl:nth-child(4) > dd {
+                width: 100px;
+            }
+
+            /* Linha E */
+            #pyaficha > #linhaE > dl:not(:last-child) > dd {
+                width: 140px;
+            }
+            #pyaficha > #linhaE > dl:nth-child(4) > dd {
+                width: 100px;
+            }
+
+            #pyaficha > #linhaE > dl:last-child {
+                background: silver;
+                font-weight: 700;
+            }
+
+            /* Linhas F, G e H */
+            #pyaficha > #linhaF {
+                overflow: hidden;
+            }
+
+            #pyaficha > #linhaF > #boleto_instrucoes {
+                width: 715px;
+                height: 185px;
+            }
+
+            #pyaficha > #linhaF > dl > dd {
+                height: 165px;
+            }
+
+            #pyaficha > #linhaF > span > dl {
+                margin: 0px;
+                height: 36px;
+                border-bottom: 1px solid black;
+            }
+
+            #pyaficha > #linhaF > span > dl:last-child {
+                border-bottom: 0px solid black;
+            }
+
+            #pyaficha > #linhaF > span > dl > dd {
+                text-align: right;
+            }
+
+            #pyaficha > #linhaF > span > dl:first-child {
+                border-top: 0px none black;
+            }
+
+            /* Linha I */
+            #pyaficha > #linhaI > #boleto_sacado {
+                float: none;
+                height: 76px;
+                margin: 0;
+                padding: 0;
+                width: 1020px;
+            }
+
+            #pyaficha > #linhaI > #boleto_sacado > dl {
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Linha J */
+            #pyaficha > #linhaJ, #pyaficha > #linhaJ > #boleto_codigo_barras {
+                height: 76px;
+            }
+            #pyaficha > #linhaJ > #boleto_autenticacao_mecanica {
+                width: 400px;
+                height: 76px;
+            }
+
             {% block custom_css %}{% endblock custom_css %}
         </style>
     </head>
     <body>
         <div id="pyaboleto">
-            <div id="pyaboleto_recibo">{% block recibo %}Recibo do sacado{% endblock recibo %}</div>
+            <div id="pyaboleto_recibo">{% block recibo %}{% endblock recibo %}</div>
             <div id="pyaficha"
                 >{% block ficha %}<div id="linhaA"
                     ><span id='boleto_banco_identificacao'>{% block boleto_banco_identificacao %}&nbsp;{% endblock boleto_banco_identificacao %}</span
@@ -46,54 +182,44 @@
                     ><span id='boleto_linha_digitavel'>{% block boleto_linha_digitavel%}{{ boleto.linha_digitavel }}{% endblock boleto_linha_digitavel%}</span
                 ></div
                 ><div id="linhaB"
-                    ><span id='boleto_local_pagamento'>{% block boleto_local_pagamento %}{{ boleto.local_pagamento }}{% endblock boleto_local_pagamento %}</span
-                    ><span id='boleto_data_vencimento'>{% block boleto_data_vencimento%}{{ boleto.data_vencimento }}{% endblock boleto_data_vencimento %}</span
+                    ><dl id='boleto_local_pagamento'><dt>Local de pagamento</dt><dd>{% block boleto_local_pagamento %}{{ boleto.local_pagamento }}{% endblock boleto_local_pagamento %}</dd></dl
+                    ><dl id='boleto_data_vencimento'><dt>Vencimento</dt><dd>{% block boleto_data_vencimento%}{{ boleto.data_vencimento|date:"d/m/Y" }}{% endblock boleto_data_vencimento %}</dd></dl
                 ></div
                 ><div id="linhaC"
-                    ><span id='boleto_cedente_nome'>{% block boleto_cedente_nome %}{{ boleto.cedente.nome }}{% endblock %}</span
-                    ><span id='boleto_cedente_endereco'>{% block boleto_cedente_endereco %}{{ boleto.cedente.endereco }}{% endblock boleto_cedente_endereco %}</span
-                    ><span id='boleto_cedente_cpf_cnpj'>{% block boleto_cedente_cpf_cnpj %}{{ boleto.cedente.cpf_cnpj }}{% endblock boleto_cedente_cpf_cnpj %}</span
-                    ><span id='boleto_convenio_agencia'>{% block boleto_convenio_agencia %}{{ boleto.convenio.agencia }}{% endblock boleto_convenio_agencia %}</span
-                    ><span id='boleto_cedente_conta'>{% block boleto_cedente_conta %}{{ boleto.convenio.conta }}{% endblock boleto_cedente_conta %}</span
+                    ><dl id='boleto_cedente'><dt>Nome</dt><dd><dd>{% block boleto_cedente %}{{ boleto.cedente.nome }}{% endblock %}</dd></dl
+                    ><dl id='boleto_convenio_agencia'><dt>Agência / Código do Beneficiário</dt
+                        ><dd>{% block boleto_convenio_agencia %}{{ boleto.convenio.agencia }} / {{ boleto.convenio.conta }}{% endblock boleto_convenio_agencia %}</dd></dl
                 ></div
                 ><div id="linhaD"
-                    ><span id='boleto_data_documento'>{% block boleto_data_documento %}{{ boleto.data_documento }}{% endblock boleto_data_documento %}</span
-                    ><span id='boleto_nosso_documento'>{% block boleto_nosso_documento %}{{ boleto.nosso_documento }}{% endblock boleto_nosso_documento %}</span
-                    ><span id='boleto_especie_documento'>{% block boleto_especie_documento %}{{ boleto.especie_documento }}{% endblock boleto_especie_documento %}</span
-                    ><span id='boleto_aceite'>{% block boleto_aceite %}{{ boleto.aceite }}{% endblock boleto_aceite %}</span
-                    ><span id='boleto_data_processamento'>{% block boleto_data_processamento %}{{ boleto.data_documento }}{% endblock boleto_data_processamento %}</span
-                    ><span id='boleto_dnosso_numero'>{% block boleto_dnosso_numero %}{{ boleto.nosso_numero }}{% endblock boleto_dnosso_numero %}</span
+                    ><dl id='boleto_data_documento'><dt>Data do documento</dt><dd>{% block boleto_data_documento %}{{ boleto.data_documento|date:"d/m/Y" }}{% endblock boleto_data_documento %}</dd></dl
+                    ><dl id='boleto_nosso_documento'><dt>Nr. do Documento</dt><dd>{% block boleto_nosso_documento %}{{ boleto.nosso_documento|default_if_none:"&nbsp;" }}{% endblock boleto_nosso_documento %}</dd></dl
+                    ><dl id='boleto_especie_documento'><dt>Espécie DOC</dt><dd>{% block boleto_especie_documento %}{{ boleto.especie_documento|default_if_none:"&nbsp;" }}{% endblock boleto_especie_documento %}</dd></dl
+                    ><dl id='boleto_aceite'><dt>Aceite</dt><dd>{% block boleto_aceite %}{{ boleto.aceite|default_if_none:"&nbsp;" }}{% endblock boleto_aceite %}</dd></dl
+                    ><dl id='boleto_data_processamento'><dt>Data do proces.</dt><dd>{% block boleto_data_processamento %}{{ boleto.data_documento|date:"d/m/Y" }}{% endblock boleto_data_processamento %}</dd></dl
+                    ><dl id='boleto_nosso_numero'><dt>Nosso Número</dt><dd>{% block boleto_nosso_numero %}{{ boleto.nosso_numero }}{% endblock boleto_nosso_numero %}</dd></dl
                 ></div
                 ><div id="linhaE"
-                    ><span id='boleto_uso_do_banco'>{% block boleto_uso_do_banco %}&nbsp;{% endblock boleto_uso_do_banco %}</span
-                    ><span id='boleto_carteira'>{% block boleto_carteira %}{{ boleto.carteira }}{% endblock boleto_carteira %}</span
-                    ><span id='boleto_especie'>{% block boleto_especie %}{{ boleto.especie }}{% endblock boleto_especie %}</span
-                    ><span id='boleto_quantidade'>{% block boleto_quantidade %}{{ boleto.quantidade }}{% endblock boleto_quantidade %}</span
-                    ><span id='boleto_valor_documento'>{% block boleto_valor_documento %}{{ boleto.valor_documento }}{% endblock boleto_valor_documento %}</span
-                    ><span id='boleto_valor'>{% block boleto_valor %}&nbsp;{% endblock boleto_valor %}</span
+                    ><dl id='boleto_uso_do_banco'><dt>Uso do Banco</dt><dd>{% block boleto_uso_do_banco %}&nbsp;{% endblock boleto_uso_do_banco %}</dd></dl
+                    ><dl id='boleto_carteira'><dt>Carteira</dt><dd>{% block boleto_carteira %}{{ boleto.convenio.carteira|default_if_none:"&nbsp;" }}{% endblock boleto_carteira %}</dd></dl
+                    ><dl id='boleto_especie_moeda'><dt>Espécie Moeda</dt><dd>{% block boleto_especie_moeda %}{{ boleto.especie_moeda|default_if_none:"&nbsp;" }}{% endblock boleto_especie_moeda %}</dd></dl
+                    ><dl id='boleto_quantidade'><dt>Qtde moeda</dt><dd>{% block boleto_quantidade %}&nbsp;{% endblock boleto_quantidade %}</dd></dl
+                    ><dl id='boleto_valor_documento'><dt>xValor</dt><dd>{% block boleto_valor_documento %}&nbsp;{% endblock boleto_valor_documento %}</dd></dl
+                    ><dl id='boleto_valor'><dt>(=) Valor do Documento</dt><dd>{% block boleto_valor %}{{ boleto.especie_moeda|default_if_none:"R$" }} {{ boleto.valor_documento|floatformat:2 }}{% endblock boleto_valor %}</dd></dl
                 ></div
                 ><div id="linhaF"
-                    ><span id='boleto_instrucoes'>{% block boleto_instrucoes %}{{ boleto.instrucoes }}{% endblock boleto_instrucoes %}</span
-                    ><span id='boleto_desconto'>{% block boleto_desconto %}{{ boleto.desconto }}{% endblock boleto_desconto %}</span
-                ></div
-                ><div id="linhaG"
-                    ><span id='boleto_multa'>{% block boleto_multa %}{{ boleto.multa }}{% endblock boleto_multa %}</span
-                    ><span id='boleto_outros_acrescimos'>{% block boleto_outros_acrescimos %}{{ boleto.outros_acrescimos }}{% endblock boleto_outros_acrescimos %}</span
-                ></div
-                ><div id="linhaH"
-                    ><span id='boleto_valor_total'>{% block boleto_valor_total %}{{ boleto.valor }}{% endblock boleto_valor_total %}</span
+                    ><dl id='boleto_instrucoes'><dt>Instruções (Texto de Responsabilidade do Beneficiário):</dt><dd>{% block boleto_instrucoes %}{{ boleto.instrucoes|default_if_none:"&nbsp;" }}{% endblock boleto_instrucoes %}</dd></dl
+                    ><span><dl id='boleto_desconto'><dt>(-) Desconto</dt><dd>{% block boleto_desconto %}&nbsp;{% endblock boleto_desconto %}</dd></dl
+                    ><dl id='boleto_outra_deducoes'><dt>(-) Outras Deduções/Abatimento</dt><dd>{% block boleto_outra_deducoes %}&nbsp;{% endblock boleto_outra_deducoes %}</dd></dl
+                    ><dl id='boleto_multa'><dt>(+) Mora/Multa/Juros</dt><dd>{% block boleto_multa %}&nbsp;{% endblock boleto_multa %}</dd></dl
+                    ><dl id='boleto_outros_acrescimos'><dt>(+) Outros Acréscimos</dt><dd>{% block boleto_outros_acrescimos %}&nbsp;{% endblock boleto_outros_acrescimos %}</dd></dl
+                    ><dl id='boleto_valor_total'><dt>(=) Valor Cobrado</dt><dd>{% block boleto_valor_total %}&nbsp;{% endblock boleto_valor_total %}</dd></dl></span
                 ></div
                 ><div id="linhaI"
-                    ><span id='boleto_sacado_nome'>{% block boleto_sacado_nome %}{{ boleto.sacado.nome }}{% endblock boleto_sacado_nome %}</span
-                    ><span id='boleto_sacado_endereco'>{% block boleto_sacado_endereco %}{{ boleto.sacado.endereco }}{% endblock boleto_sacado_endereco %}</span
-                    ><span id='boleto_sacado_cpf_cnpj'>{% block boleto_sacado_cpf_cnpj %}{{ boleto.sacado.cpf_cnpj }}{% endblock boleto_sacado_cpf_cnpj %}</span
-                    ><span id='boleto_sacador_nome'>{% block boleto_sacador_nome %}{{ boleto.sacador.nome }}{% endblock boleto_sacador_nome %}</span
-                    ><span id='boleto_sacador_endereco'>{% block boleto_sacador_endereco %}{{ boleto.sacador.endereco }}{% endblock boleto_sacador_endereco %}</span
-                    ><span id='boleto_sacador_cpf_cnpj'>{% block boleto_sacador_cpf_cnpj %}{{ boleto.sacador.cpf_cnpj }}{% endblock boleto_sacador_cpf_cnpj %}</span
+                    ><span id='boleto_sacado'><dl><dt>Sacado</dt>{% block boleto_sacado %}<dd>{{ boleto.sacado.nome }} - CPF/CNPJ: {{ boleto.sacado.cpf_cnpj }}</dd><dd>{{ boleto.sacado.endereco }}</dd>{% endblock boleto_sacado %}</dl></span
                 ></div
                 ><div id="linhaJ"
-                    ><span id='boleto_codigo_barras'>{% block boleto_codigo_barras %}{{ boleto.codigo_barras }}{% endblock boleto_codigo_barras %}</span
-                    ><span id='boleto_autenticacao_mecanica'>{% block boleto_autenticacao_mecanica %}&nbsp;{% endblock boleto_autenticacao_mecanica %}</span
+                    ><dl id='boleto_codigo_barras'>{% block boleto_codigo_barras %}{{ boleto.codigo_barras }}{% endblock boleto_codigo_barras %}</dl
+                    ><dl id='boleto_autenticacao_mecanica'><dt>Autenticação Mecânica - <b>Ficha de Compensação</b></dt><dd>{% block boleto_autenticacao_mecanica %}&nbsp;{% endblock boleto_autenticacao_mecanica %}</dd></dl
                 ></div
             >{% endblock ficha %}</div>
         </div>
